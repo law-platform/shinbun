@@ -1,0 +1,183 @@
+/* 色・カード・ヘッダー・フッターは juridic（明治法律辞書検索）・arthis（明治法典編纂議事録）の style.css と同じ。
+   検索欄と検索結果の見た目は fulltext.js が自分で入れる（司法省日誌と同じ） */
+:root {
+  --accent:      #2563eb;
+  --accent-soft: #eff6ff;
+  --border:      #e5e7eb;
+  --muted:       #4b5563;
+  --card-bg:     #ffffff;
+  --ink:         #111827;
+  --shadow:      0 1px 2px rgba(0,0,0,0.05);
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-down { animation: fadeDown 0.4s ease-out; }
+
+/* Tailwind の preflight（a { color: inherit }）より後に効くよう、範囲を絞って指定する */
+.entry a, .doc-toc a, .pager a, .lead a { color: var(--accent); text-decoration: none; }
+.entry a:hover, .doc-toc a:hover, .lead a:hover { text-decoration: underline; }
+
+.lead { font-size: 0.875rem; color: var(--muted); line-height: 1.8; }
+
+/* ── トップページ：号を選んで開く ── */
+.issue-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 0.875rem; color: var(--muted); }
+.issue-jump select {
+  font: inherit;
+  color: var(--ink);
+  max-width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* ── 記事のカード ── */
+.badge {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 9999px;
+  border: 1px solid #d1d5db;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.entry {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border);
+}
+.entry-meta .page { margin-left: auto; font-size: 0.75rem; color: var(--muted); }
+
+.article { scroll-margin-top: 16px; }
+.article:target, .sec-note:target { outline: 3px solid #eda100; outline-offset: 2px; }
+
+/* ── 本文 ── */
+.doc-body { font-size: 1rem; line-height: 1.9; color: var(--ink); }
+.doc-body p { margin: 0; }
+.doc-body p.tx { text-indent: 1em; word-break: break-all; }
+.doc-body * + p.tx { margin-top: 0.4em; }
+.art-title { margin: 0 0 2px; font-size: 1.0625rem; font-weight: 700; line-height: 1.7; }
+.art-case { font-size: 0.875rem; color: var(--muted); }
+.art-label { font-weight: 500; }
+.byline { text-align: right; font-size: 0.9375rem; color: #374151; }
+
+/* 号の中の欄（論説・判决例など。div1 の label） */
+.sec-label {
+  margin: 28px 0 12px;
+  padding-bottom: 4px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 2px solid var(--border);
+}
+.sec-note {
+  margin: 0 0 16px;
+  padding: 8px 12px;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  background: #f9fafb;
+  border-left: 3px solid #d1d5db;
+  border-radius: 3px;
+  scroll-margin-top: 16px;
+}
+
+/* ── 前後の号 ── */
+.pager { display: flex; justify-content: space-between; gap: 16px; margin: 24px 0 8px; font-size: 0.875rem; }
+.pager a {
+  flex: 1 1 0;
+  max-width: 48%;
+  padding: 10px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.pager a:hover { background: var(--accent-soft); }
+.pager small { display: block; color: var(--muted); font-size: 0.75rem; }
+.pager .next { text-align: right; margin-left: auto; }
+
+/* ── 個別ページの見出しまわり（juridic の docs/*.html と同じ） ── */
+.doc-back { margin: 0 0 8px; font-size: 0.875rem; }
+.doc-back a { color: var(--accent); text-decoration: none; }
+.doc-back a:hover { text-decoration: underline; }
+.src-file { margin-left: 16px; color: #9ca3af; font-size: 0.75rem; }
+
+.doc-toc {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+.doc-toc summary { cursor: pointer; padding: 12px 16px; font-weight: 500; }
+.toc-body { padding: 0 16px 14px; font-size: 0.875rem; line-height: 1.7; }
+.toc-body h3 { margin: 10px 0 2px; font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
+.toc-body h3:first-child { margin-top: 0; }
+.toc-body ul { margin: 0; padding-left: 1.25em; list-style: disc; }
+.toc-body .toc-type { margin-left: 6px; font-size: 0.75rem; color: #9ca3af; }
+
+@media (max-width: 640px) {
+  .pager { flex-direction: column; }
+  .pager a { max-width: none; }
+}
+
+/* ── 法律情報基盤（law-platform.jp）と同じヘッダー・フッター ── */
+.lp-header { background-color: #002060; }
+.lp-header-inner {
+  display: flex;
+  align-items: stretch;
+  max-width: 1024px;
+  min-height: 3.25rem;
+  margin: 0 auto;
+}
+.lp-header .title-box { padding: 0.5rem 1rem 0 0.5rem; }
+.lp-header .lp-title,
+.lp-header .lp-subtitle { display: inline-block; margin: 0; line-height: 1; }
+.lp-header .lp-title { font-size: 2rem; font-weight: 600; }
+.lp-header .lp-title a { font-family: "HG教科書体"; font-weight: normal; }
+.lp-header .lp-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-family: "Times New Roman";
+  font-style: italic;
+  margin-left: 1em;
+}
+.lp-header .lp-title a,
+.lp-header .lp-subtitle a { color: white; text-decoration: none; }
+
+.lp-footer {
+  margin-top: 3rem;
+  padding: 10px;
+  background-color: #fafafa;
+  color: #4a4a4a;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+}
+.lp-footer-inner { max-width: 960px; margin: 0 auto; }
+.lp-footer p { margin: 0; }
+.lp-footer p:not(:last-child) { margin-bottom: 1em; }
+.lp-footer a { color: #485fc7; text-decoration: none; }
+.lp-footer a:hover { color: #363636; }
+.lp-footer img { display: inline; height: auto; max-width: 100%; vertical-align: baseline; }

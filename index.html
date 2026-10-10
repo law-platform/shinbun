@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { fontFamily: { sans: ['"Noto Sans JP"', 'ui-sans-serif', 'system-ui', 'sans-serif'] } } } }
+</script>
+<title>法律新聞</title>
+<meta name="description" content="『法律新聞』第1号〜第92号（明治33年9月24日〜明治35年6月23日）と号外の本文を、記事ごとに全文検索する">
+<link rel="stylesheet" href="style.css?v=6850d678492e">
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen font-sans">
+
+<header class="lp-header">
+  <div class="lp-header-inner">
+    <div class="title-box"><h1 class="lp-title"><a href="https://law-platform.jp/">法律情報基盤</a></h1><h2 class="lp-subtitle"><a href="https://law-platform.jp/"> - Legal Information Platform - </a></h2></div>
+  </div>
+</header>
+
+<div class="max-w-3xl mx-auto px-4 pt-8">
+  <div class="mb-6 fade-down">
+    <h1 class="text-2xl font-bold text-gray-900 tracking-wide"><a href="./">法律新聞</a></h1>
+    <p class="mt-2 lead">『法律新聞』第1号〜第92号（明治33年9月24日〜明治35年6月23日）と号外 1 号の本文（記事 3,725 件）を全文検索できます。<br>テキストデータは、明治大学社会・人間・情報プラットフォームプロジェクト（SHIP プロジェクト）における研究成果物の一部です。</p>
+  </div>
+
+  <!-- 全文検索（司法省日誌と同じ。Enter・検索ボタンで検索し、検索中は下の「号を選んで読む」を隠す） -->
+  <div id="fulltextRoot" class="mb-8"></div>
+
+  <div id="browse">
+    <label class="issue-jump">号を選んで読む
+      <select id="issueJump"><option value="">―</option>
+        <optgroup label="明治33年（1900）">
+          <option value="docs/0001.html">第1号（明治33年9月24日）</option>
+          <option value="docs/0002.html">第2号（明治33年10月1日）</option>
+          <option value="docs/0003.html">第3号（明治33年10月8日）</option>
+          <option value="docs/0004.html">第4号（明治33年10月15日）</option>
+          <option value="docs/0005.html">第5号（明治33年10月22日）</option>
+          <option value="docs/0006.html">第6号（明治33年10月29日）</option>
+          <option value="docs/0007.html">第7号（明治33年11月5日）</option>
+          <option value="docs/0008.html">第8号（明治33年11月12日）</option>
+          <option value="docs/0009.html">第9号（明治33年11月19日）</option>
+          <option value="docs/0010.html">第10号（明治33年11月26日）</option>
+          <option value="docs/0011.html">第11号（明治33年12月3日）</option>
+          <option value="docs/0012.html">第12号（明治33年12月10日）</option>
+          <option value="docs/0013.html">第13号（明治33年12月17日）</option>
+          <option value="docs/0014.html">第14号（明治33年12月24日）</option>
+        </optgroup>
+        <optgroup label="明治34年（1901）">
+          <option value="docs/0015.html">第15号（明治34年1月1日）</option>
+          <option value="docs/0016.html">第16号（明治34年1月7日）</option>
+          <option value="docs/0017.html">第17号（明治34年1月14日）</option>
+          <option value="docs/0018.html">第18号（明治34年1月21日）</option>
+          <option value="docs/0019.html">第19号（明治34年1月28日）</option>
+          <option value="docs/0020.html">第20号（明治34年2月4日）</option>
+          <option value="docs/0021.html">第21号（明治34年2月11日）</option>
+          <option value="docs/0022.html">第22号（明治34年2月18日）</option>
+          <option value="docs/0023.html">第23号（明治34年2月25日）</option>
+          <option value="docs/0024.html">第24号（明治34年3月4日）</option>
+          <option value="docs/0025.html">第25号（明治34年3月11日）</option>
+          <option value="docs/0026.html">第26号（明治34年3月18日）</option>
+          <option value="docs/0027.html">第27号（明治34年3月25日）</option>
+          <option value="docs/0028.html">第28号（明治34年4月1日）</option>
+          <option value="docs/0029.html">第29号（明治34年4月8日）</option>
+          <option value="docs/0030.html">第30号（明治34年4月15日）</option>
+          <option value="docs/0031.html">第31号（明治34年4月22日）</option>
+          <option value="docs/0032.html">第32号（明治34年4月29日）</option>
+          <option value="docs/0033.html">第33号（明治34年5月6日）</option>
+          <option value="docs/0034.html">第34号（明治34年5月13日）</option>
+          <option value="docs/0035.html">第35号（明治34年5月20日）</option>
+          <option value="docs/0036.html">第36号（明治34年5月27日）</option>
+          <option value="docs/0037.html">第37号（明治34年6月3日）</option>
+          <option value="docs/0038.html">第38号（明治34年6月10日）</option>
+          <option value="docs/0039.html">第39号（明治34年6月17日）</option>
+          <option value="docs/0040.html">第40号（明治34年6月24日）</option>
+          <option value="docs/0041.html">第41号（明治34年7月1日）</option>
+          <option value="docs/0042.html">第42号（明治34年7月8日）</option>
+          <option value="docs/0043.html">第43号（明治34年7月15日）</option>
+          <option value="docs/0044.html">第44号（明治34年7月22日）</option>
+          <option value="docs/0045.html">第45号（明治34年7月29日）</option>
+          <option value="docs/0046.html">第46号（明治34年8月5日）</option>
+          <option value="docs/0047.html">第47号（明治34年8月12日）</option>
+          <option value="docs/0048.html">第48号（明治34年8月19日）</option>
+          <option value="docs/0049.html">第49号（明治34年8月26日）</option>
+          <option value="docs/0050.html">第50号（明治34年9月2日）</option>
+          <option value="docs/0051.html">第51号（明治34年9月9日）</option>
+          <option value="docs/0052.html">第52号（明治34年9月16日）</option>
+          <option value="docs/0053.html">第53号（明治34年9月23日）</option>
+          <option value="docs/0054.html">第54号（明治34年9月30日）</option>
+          <option value="docs/0055.html">第55号（明治34年10月7日）</option>
+          <option value="docs/0056.html">第56号（明治34年10月14日）</option>
+          <option value="docs/0057.html">第57号（明治34年10月21日）</option>
+          <option value="docs/0058.html">第58号（明治34年10月28日）</option>
+          <option value="docs/0059.html">第59号（明治34年11月4日）</option>
+          <option value="docs/0060.html">第60号（明治34年11月11日）</option>
+          <option value="docs/0061.html">第61号（明治34年11月18日）</option>
+          <option value="docs/0062.html">第62号（明治34年11月25日）</option>
+          <option value="docs/0063.html">第63号（明治34年12月2日）</option>
+          <option value="docs/0064.html">第64号（明治34年12月9日）</option>
+          <option value="docs/0065.html">第65号（明治34年12月16日）</option>
+          <option value="docs/0066.html">第66号（明治34年12月23日）</option>
+        </optgroup>
+        <optgroup label="明治35年（1902）">
+          <option value="docs/0067.html">第67号（明治35年1月1日）</option>
+          <option value="docs/0068.html">第68号（明治35年1月6日）</option>
+          <option value="docs/0069.html">第69号（明治35年1月13日）</option>
+          <option value="docs/0070.html">第70号（明治35年1月20日）</option>
+          <option value="docs/0071.html">第71号（明治35年1月27日）</option>
+          <option value="docs/0072.html">第72号（明治35年2月3日）</option>
+          <option value="docs/0073.html">第73号（明治35年2月10日）</option>
+          <option value="docs/0074.html">第74号（明治35年2月17日）</option>
+          <option value="docs/0075.html">第75号（明治35年2月24日）</option>
+          <option value="docs/0076.html">第76号（明治35年3月3日）</option>
+          <option value="docs/0077.html">第77号（明治35年3月10日）</option>
+          <option value="docs/0078.html">第78号（明治35年3月17日）</option>
+          <option value="docs/gogai-1902-03-19.html">号外（明治35年3月19日）</option>
+          <option value="docs/0079.html">第79号（明治35年3月24日）</option>
+          <option value="docs/0080.html">第80号（明治35年3月31日）</option>
+          <option value="docs/0081.html">第81号（明治35年4月7日）</option>
+          <option value="docs/0082.html">第82号（明治35年4月14日）</option>
+          <option value="docs/0083.html">第83号（明治35年4月21日）</option>
+          <option value="docs/0084.html">第84号（明治35年4月28日）</option>
+          <option value="docs/0085.html">第85号（明治35年5月5日）</option>
+          <option value="docs/0086.html">第86号（明治35年5月12日）</option>
+          <option value="docs/0087.html">第87号（明治35年5月19日）</option>
+          <option value="docs/0088.html">第88号（明治35年5月26日）</option>
+          <option value="docs/0089.html">第89号（明治35年6月2日）</option>
+          <option value="docs/0090.html">第90号（明治35年6月9日）</option>
+          <option value="docs/0091.html">第91号（明治35年6月16日）</option>
+          <option value="docs/0092.html">第92号（明治35年6月23日）</option>
+        </optgroup>
+      </select>
+    </label>
+  </div>
+
+</div>
+
+<footer class="lp-footer">
+  <div class="lp-footer-inner">
+    <p><a href="https://law-platform.jp/terms">サイトポリシー</a></p>
+    <p>Copyright &copy;<a href="https://researchmap.jp/30419428" rel="noopener noreferrer" target="_blank"> SANO Tomoya</a></p>
+    <div>
+      <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank"><img alt="CC BY 4.0" class="cc-logo" src="https://licensebuttons.net/l/by/4.0/88x31.png" /></a>
+      <p>本データベースは、<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">クリエイティブ・コモンズ 表示 4.0 ライセンス</a>のもとで利用できます。</p>
+    </div>
+  </div>
+</footer>
+<script src="fulltext/fulltext.js?v=6850d678492e"></script>
+<script>
+// 全文検索（fulltext/ の静的索引をブラウザ側で検索する。program/convert_shinbun_to_html.ps1 が生成）。
+// 入力中は検索せず、Enter・検索ボタンで検索する（live: false）。検索中は「号を選んで読む」を隠す。欄を空にすると元に戻る
+const browse = document.getElementById('browse');
+const fulltext = FullTextSearch.mount(document.getElementById('fulltextRoot'), {
+  base: 'fulltext/', hashKey: 'search', groupLabel: '号', live: false,
+  onChange: searching => { browse.hidden = searching; },
+});
+fulltext.restoreFromHash();
+document.getElementById('issueJump').addEventListener('change', e => { if (e.target.value) location.href = e.target.value; });
+</script>
+</body>
+</html>
