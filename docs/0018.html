@@ -10,7 +10,7 @@
 </script>
 <title>第18号（明治34年1月21日） | 法律新聞</title>
 <meta name="description" content="『法律新聞』第18号（明治34年1月21日）の本文">
-<link rel="stylesheet" href="../style.css?v=6850d678492e">
+<link rel="stylesheet" href="../style.css?v=70a198ca25a5">
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen font-sans">
 
@@ -21,7 +21,7 @@
 </header>
 
 <div class="max-w-3xl mx-auto px-4 pt-8">
-  <p class="doc-back"><a href="../">← 法律新聞</a></p>
+  <p class="doc-back doc-back-top"><a id="back-link" href="../">← 法律新聞</a></p>
 
   <div class="mb-6 fade-down">
     <h1 id="top" class="text-2xl font-bold text-gray-900 tracking-wide">法律新聞　第18号</h1>
@@ -238,10 +238,41 @@
     </div>
   </div>
 </footer>
-<script src="../fulltext/fulltext.js?v=6850d678492e" defer></script>
+<script src="../fulltext/fulltext.js?v=70a198ca25a5" defer></script>
 <script>
 // 全文検索の結果から開かれたとき（?q=…）は、本文中の検索語を強調して該当の記事へ移る
 addEventListener('DOMContentLoaded', () => FullTextSearch.highlightFromQuery({ base: '../fulltext/', root: '.doc-body' }));
+</script><script>
+// 全文検索の結果から開かれたとき（?q=…）は、上端のリンクを「← 検索結果に戻る」にする（司法省日誌と同じ）。
+// 検索結果ページから来た場合は、目次などで移動して増えた履歴もまとめて遡って戻る
+// （検索結果のページ番号・スクロール位置がそのまま戻る）。別タブで開いた等で戻る先が無いときは同じ検索語で開き直す
+(function () {
+  var q = new URLSearchParams(location.search).get('q');
+  if (!q) return;
+  var link = document.getElementById('back-link');
+  link.textContent = '← 検索結果に戻る';
+  link.href = '../#search?' + new URLSearchParams({ q: q });
+  var top = new URL('../', location.href).pathname;
+  var fromSearch = false;
+  try {
+    var ref = new URL(document.referrer);
+    fromSearch = ref.origin === location.origin && (ref.pathname === top || ref.pathname === top + 'index.html');
+  } catch (e) {}
+  if (!fromSearch) return;
+  // このページに来てから増えた履歴の数を、各履歴の state に記録しておく
+  var depth = (history.state && history.state.backDepth) || 0;
+  history.replaceState(Object.assign({}, history.state, { backDepth: depth }), '');
+  addEventListener('hashchange', function () {
+    if (history.state && typeof history.state.backDepth === 'number') depth = history.state.backDepth;
+    else history.replaceState({ backDepth: ++depth }, '');
+  });
+  link.addEventListener('click', function (e) {
+    if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+    if (history.length <= depth + 1) return;
+    e.preventDefault();
+    history.go(-(depth + 1));
+  });
+})();
 </script>
 </body>
 </html>

@@ -67,7 +67,7 @@
 }
 .entry-meta .page { margin-left: auto; font-size: 0.75rem; color: var(--muted); }
 
-.article { scroll-margin-top: 16px; }
+.article { scroll-margin-top: 48px; }  /* 上端に固定した「← 法律新聞」に隠れないように */
 .article:target, .sec-note:target { outline: 3px solid #eda100; outline-offset: 2px; }
 
 /* ── 本文 ── */
@@ -97,7 +97,7 @@
   background: #f9fafb;
   border-left: 3px solid #d1d5db;
   border-radius: 3px;
-  scroll-margin-top: 16px;
+  scroll-margin-top: 48px;
 }
 
 /* ── 前後の号 ── */
@@ -119,6 +119,17 @@
 .doc-back { margin: 0 0 8px; font-size: 0.875rem; }
 .doc-back a { color: var(--accent); text-decoration: none; }
 .doc-back a:hover { text-decoration: underline; }
+/* 上端の「← 一覧」は、スクロールしても画面の上端に残す（帯の背景・下線は画面の幅いっぱいに出す） */
+.doc-back-top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  margin: 0 0 8px;
+  padding: 8px 0;
+  background: #f9fafb;
+  box-shadow: 0 0 0 100vmax #f9fafb, 0 1px 0 100vmax #e5e7eb;
+  clip-path: inset(0 -100vmax -1px -100vmax);
+}
 .src-file { margin-left: 16px; color: #9ca3af; font-size: 0.75rem; }
 
 .doc-toc {
