@@ -2,7 +2,6 @@
  * 全文検索（静的索引をブラウザ側で検索する）
  *
  * 【法律新聞】司法省日誌（https://shiho-nisshi.github.io/）の fulltext.js を使っている（下の説明は司法省日誌のもの）。
- * 司法省日誌から変えたのは、mount の opts.live（false なら入力しながらは検索しない。省略時は従来どおり）だけ。
  * 法律新聞の索引は program/shinbun_search.cs が同じ形式で作り、convert_shinbun_to_html.ps1 がこのファイルを
  * github/fulltext/ に複製する。正本を直したときは、このファイルにも写すこと。
  *
@@ -15,7 +14,7 @@
  * 使い方（全文検索の検索欄。司法省日誌の索引ページ）:
  *   const fts = FullTextSearch.mount(要素, { base: 'fulltext/', hashKey: 'search', groupLabel: '巻',
  *                                            onChange: 検索中か => { … } });
- *   入力しながら検索し（打ち終わって0.4秒後、Enterで即時。opts.live: false なら Enter・検索ボタンでだけ）、検索状態は #search?q=… に残す。
+ *   Enter・検索ボタンで検索し（入力中は検索しない）、検索状態は #search?q=… に残す。
  *   onChange で検索の開始・解除を受け取れる（司法省日誌は検索中だけ巻一覧を隠している）
  *   fts.restoreFromHash();   // URLが #search?q=… なら検索を復元して true を返す
  * 使い方（資料ページ）: 検索結果のリンクには ?q=… が付くので、開いた先で検索語を強調する
@@ -459,7 +458,16 @@ mark.fts-hl { background: #fef08a; color: inherit; padding: 0 1px; border-radius
       opts.onChange?.(false);
     }
 
-    async function search(q, group = -1, page = 1) {
+    // Google アナリティクスに検索語と件数を送る（Enter・検索ボタンでの検索だけ。URL から開き直したときと、直前と同じ語は送らない）。
+    // ページに gtag がなければ何もしない
+    let lastSent = '';
+    function sendSearch(q, count) {
+      if (q === lastSent || typeof gtag !== 'function') return;
+      lastSent = q;
+      gtag('event', 'search', { search_term: q.slice(0, 100), result_count: String(count) });
+    }
+
+    async function search(q, group = -1, page = 1, send = false) {
       q = q.trim();
       if (input.value.trim() !== q) input.value = q;
       if (!q) { clear(); return; }
@@ -473,6 +481,7 @@ mark.fts-hl { background: #fef08a; color: inherit; padding: 0 1px; border-radius
         const docs = terms.length ? await index.search(terms) : [];
         if (my !== token) return;
         state = { q, terms, docs, group, page };
+        if (send) sendSearch(q, docs.length);
         await render();
       } catch (err) {
         if (my === token) area.innerHTML = `<div class="fts-status fts-error">エラーが発生しました: ${escapeHtml(err.message)}</div>`;
@@ -481,18 +490,9 @@ mark.fts-hl { background: #fef08a; color: inherit; padding: 0 1px; border-radius
       }
     }
 
-    let timer = null;
-    form.addEventListener('submit', e => { e.preventDefault(); clearTimeout(timer); search(input.value); });
-    // 入力しながら検索する（law-platform 議事録の一覧と同じく、打ち終わって 0.4 秒後）。
-    // opts.live === false なら入力中は検索せず、Enter・検索ボタンでだけ検索する（法律新聞）。
-    // 「×」で消したとき（search イベント）はすぐ反映する
-    if (opts.live !== false) {
-      input.addEventListener('input', () => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { if (input.value.trim() !== state.q) search(input.value); }, 400);
-      });
-    }
-    input.addEventListener('search', () => { if (!input.value.trim()) { clearTimeout(timer); clear(); } });
+    // 入力中は検索せず、Enter・検索ボタンで検索する。「×」で消したとき（search イベント）はすぐ反映する
+    form.addEventListener('submit', e => { e.preventDefault(); search(input.value, -1, 1, true); });
+    input.addEventListener('search', () => { if (!input.value.trim()) clear(); });
 
     function restoreFromHash() {
       const h = location.hash;

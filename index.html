@@ -2,6 +2,14 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<!-- Google tag (gtag.js)。法律情報基盤の全サイトで 1 つのプロパティ。サイトは content_group で分ける -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QKX7VJWQW6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QKX7VJWQW6', { content_group: 'shinbun' });
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -10,7 +18,7 @@
 </script>
 <title>法律新聞</title>
 <meta name="description" content="『法律新聞』第1号〜第92号（明治33年9月24日〜明治35年6月23日）と号外の本文を、記事ごとに全文検索する">
-<link rel="stylesheet" href="style.css?v=70a198ca25a5">
+<link rel="stylesheet" href="style.css?v=4d9abc0bf6a5">
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen font-sans">
 
@@ -147,13 +155,13 @@
     </div>
   </div>
 </footer>
-<script src="fulltext/fulltext.js?v=70a198ca25a5"></script>
+<script src="fulltext/fulltext.js?v=4d9abc0bf6a5"></script>
 <script>
 // 全文検索（fulltext/ の静的索引をブラウザ側で検索する。program/convert_shinbun_to_html.ps1 が生成）。
-// 入力中は検索せず、Enter・検索ボタンで検索する（live: false）。検索中は「号を選んで読む」を隠す。欄を空にすると元に戻る
+// 入力中は検索せず、Enter・検索ボタンで検索する。検索中は「号を選んで読む」を隠す。欄を空にすると元に戻る
 const browse = document.getElementById('browse');
 const fulltext = FullTextSearch.mount(document.getElementById('fulltextRoot'), {
-  base: 'fulltext/', hashKey: 'search', groupLabel: '号', live: false,
+  base: 'fulltext/', hashKey: 'search', groupLabel: '号',
   onChange: searching => { browse.hidden = searching; },
 });
 // 検索結果から記事を開いて戻ってきたとき、結果一覧のスクロール位置を戻す
